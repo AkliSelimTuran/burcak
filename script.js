@@ -13,10 +13,18 @@ document.getElementById('kayitFormu').addEventListener('submit', function(e) {
     const yeniOgrenci = { isim, cinsiyet, burc, grup };
     ogrenciler.push(yeniOgrenci);
 
-    document.getElementById('sonuc').innerHTML = `
-        <p><strong>${isim}</strong> (${cinsiyet}) - Burcu: <strong>${burc}</strong> (${grup})</p>
-        <p>${ogrenciler.length} öğrenci kayıtlı.</p>
-    `;
+   let listeHTML = `<h3>📝 Kayıtlı Öğrenciler (${ogrenciler.length})</h3><ul>`;
+ogrenciler.forEach(o => {
+    listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${o.burc} / ${o.grup}</li>`;
+});
+listeHTML += `</ul>`;
+
+document.getElementById('sonuc').innerHTML = listeHTML;
+
+if (ogrenciler.length === 50) {
+    siniflariOlustur();
+}
+
 
     if (ogrenciler.length === 50) {
         siniflariOlustur();
