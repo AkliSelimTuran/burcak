@@ -1,3 +1,5 @@
+const ogrenciler = [];
+
 document.getElementById('kayitFormu').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -8,9 +10,17 @@ document.getElementById('kayitFormu').addEventListener('submit', function(e) {
     const burc = burcHesapla(dogumTarihi);
     const grup = burcGrubu(burc);
 
+    const yeniOgrenci = { isim, cinsiyet, burc, grup };
+    ogrenciler.push(yeniOgrenci);
+
     document.getElementById('sonuc').innerHTML = `
         <p><strong>${isim}</strong> (${cinsiyet}) - Burcu: <strong>${burc}</strong> (${grup})</p>
+        <p>${ogrenciler.length} öğrenci kayıtlı.</p>
     `;
+
+    if (ogrenciler.length === 50) {
+        siniflariOlustur();
+    }
 });
 
 function burcHesapla(tarih) {
@@ -34,11 +44,5 @@ function burcGrubu(burc) {
     const ates = ["Koç", "Aslan", "Yay"];
     const toprak = ["Boğa", "Başak", "Oğlak"];
     const hava = ["İkizler", "Terazi", "Kova"];
-    const su = ["Yengeç", "Akrep", "Balık"];
+    const su = ["Yengeç", "Akrep",]()
 
-    if (ates.includes(burc)) return "Ateş";
-    if (toprak.includes(burc)) return "Toprak";
-    if (hava.includes(burc)) return "Hava";
-    if (su.includes(burc)) return "Su";
-    return "Bilinmiyor";
-}
