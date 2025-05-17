@@ -13,37 +13,16 @@ document.getElementById('kayitFormu').addEventListener('submit', function(e) {
     const yeniOgrenci = { isim, cinsiyet, burc, grup };
     ogrenciler.push(yeniOgrenci);
 
-   let listeHTML = `<h3>📝 Kayıtlı Öğrenciler (${ogrenciler.length})</h3><ul>`;
-ogrenciler.forEach(o => {
-    listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${o.burc} / ${o.grup}</li>`;
-});
-listeHTML += `</ul>`;
+    // Kayıtlı listeyi güncelle
+    guncelleListe();
 
-const gruplar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
-
-ogrenciler.forEach(o => {
-    gruplar[o.grup].push(o);
-});
-
-let listeHTML = `<h3>📝 Kayıtlı Öğrenciler (${ogrenciler.length})</h3>`;
-
-for (const grup in gruplar) {
-    listeHTML += `<h4>${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
-    gruplar[grup].forEach(o => {
-        listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${o.burc}</li>`;
-    });
-    listeHTML += `</ul>`;
-}
-
-if (ogrenciler.length === 50) {
-    siniflariOlustur();
-}
-
-
-
+    // Eğer 50 kişi olduysa sınıfları oluştur
     if (ogrenciler.length === 50) {
         siniflariOlustur();
     }
+
+    // Formu sıfırla
+    document.getElementById('kayitFormu').reset();
 });
 
 function burcHesapla(tarih) {
@@ -76,29 +55,6 @@ function burcGrubu(burc) {
     return "Bilinmiyor";
 }
 
-function siniflariOlustur() {
-    const siniflar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
-
-    for (const ogr of ogrenciler) {
-        siniflar[ogr.grup].push(ogr);
-    }
-
-    // Grup eksikliklerine göre birleşme
-    let atesHava = [...siniflar["Ateş"], ...siniflar["Hava"]];
-    let suToprak = [...siniflar["Su"], ...siniflar["Toprak"]];
-
-    const sinifA = atesHava.slice(0, 25);
-    const sinifB = suToprak.slice(0, 25);
-
-    // HTML çıktısı
-    let html = `<h2>Sınıf A (Ateş + Hava)</h2><ul>`;
-    sinifA.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
-    html += `</ul><h2>Sınıf B (Su + Toprak)</h2><ul>`;
-    sinifB.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
-    html += `</ul>`;
-
-    document.getElementById('sonuc').innerHTML = html;
-}
 function guncelleListe() {
     const gruplar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
 
@@ -119,3 +75,26 @@ function guncelleListe() {
     document.getElementById('sonuc').innerHTML = listeHTML;
 }
 
+function siniflariOlustur() {
+    const siniflar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
+
+    for (const ogr of ogrenciler) {
+        siniflar[ogr.grup].push(ogr);
+    }
+
+    // Eksik grup varsa: Ateş + Hava -> A, Su + Toprak -> B
+    let atesHava = [...siniflar["Ateş"], ...siniflar["Hava"]];
+    let suToprak = [...siniflar["Su"], ...siniflar["Toprak"]];
+
+    const sinifA = atesHava.slice(0, 25);
+    const sinifB = suToprak.slice(0, 25);
+
+    // HTML çıktısı
+    let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
+    sinifA.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
+    html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
+    sinifB.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
+    html += `</ul>`;
+
+    document.getElementById('sonuc').innerHTML = html;
+}
