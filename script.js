@@ -1,3 +1,4 @@
+<script>
 const ogrenciler = [];
 
 document.getElementById('kayitFormu').addEventListener('submit', function(e) {
@@ -9,29 +10,11 @@ document.getElementById('kayitFormu').addEventListener('submit', function(e) {
 
     const burc = burcHesapla(dogumTarihi);
     const grup = burcGrubu(burc);
-function burcSembol(burc) {
-    const semboller = {
-        "Koç": "♈", "Boğa": "♉", "İkizler": "♊", "Yengeç": "♋",
-        "Aslan": "♌", "Başak": "♍", "Terazi": "♎", "Akrep": "♏",
-        "Yay": "♐", "Oğlak": "♑", "Kova": "♒", "Balık": "♓"
-    };
-    return semboller[burc] || "";
-}
-
-function grupSembol(grup) {
-    const semboller = {
-        "Ateş": "🔥",
-        "Su": "💧",
-        "Hava": "🌬️",
-        "Toprak": "🪨"
-    };
-    return semboller[grup] || "";
-}
 
     const yeniOgrenci = { isim, cinsiyet, burc, grup };
     ogrenciler.push(yeniOgrenci);
 
-    // Kayıtlı listeyi güncelle
+    // Listeyi güncelle
     guncelleListe();
 
     // Eğer 50 kişi olduysa sınıfları oluştur
@@ -39,7 +22,6 @@ function grupSembol(grup) {
         siniflariOlustur();
     }
 
-    // Formu sıfırla
     document.getElementById('kayitFormu').reset();
 });
 
@@ -73,6 +55,25 @@ function burcGrubu(burc) {
     return "Bilinmiyor";
 }
 
+function burcSembol(burc) {
+    const semboller = {
+        "Koç": "♈", "Boğa": "♉", "İkizler": "♊", "Yengeç": "♋",
+        "Aslan": "♌", "Başak": "♍", "Terazi": "♎", "Akrep": "♏",
+        "Yay": "♐", "Oğlak": "♑", "Kova": "♒", "Balık": "♓"
+    };
+    return semboller[burc] || "";
+}
+
+function grupSembol(grup) {
+    const semboller = {
+        "Ateş": "🔥",
+        "Su": "💧",
+        "Hava": "🌬️",
+        "Toprak": "🪨"
+    };
+    return semboller[grup] || "";
+}
+
 function guncelleListe() {
     const gruplar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
 
@@ -87,60 +88,12 @@ function guncelleListe() {
         gruplar[grup].forEach(o => {
             listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
         });
-        listeHTML += `</ul>`; // ❗ UL ETİKETİNİ KAPATIYORUZ
+        listeHTML += `</ul>`;
     }
 
     document.getElementById('sonuc').innerHTML = listeHTML;
 }
 
-
-function siniflariOlustur() {
-    const siniflar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
-
-    for (const ogr of ogrenciler) {
-        siniflar[ogr.grup].push(ogr);
-    }
-
-    // Eksik grup varsa: Ateş + Hava -> A, Su + Toprak -> B
-    let atesHava = [...siniflar["Ateş"], ...siniflar["Hava"]];
-    let suToprak = [...siniflar["Su"], ...siniflar["Toprak"]];
-
-    const sinifA = atesHava.slice(0, 25);
-    const sinifB = suToprak.slice(0, 25);
-
-    // HTML çıktısı
-    let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
-    sinifA.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
-    html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
-       sinifB.forEach(o => {
-        html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
-    });
-
-    html += `</ul>`; // Sınıf B listesini kapat
-    document.getElementById('sonuc').innerHTML = html;
-}
-const ogrenciler = [];
-
-document.getElementById('kayitFormu').addEventListener('submit', function(e) {
-    // ... kayıt işlemi ...
-});
-
-// 🧠 Burç hesaplama fonksiyonu
-function burcHesapla(tarih) { ... }
-
-// 🧪 Burç grubu hesaplama fonksiyonu
-function burcGrubu(burc) { ... }
-
-// ♈ Burç sembolleri
-function burcSembol(burc) { ... }
-
-// 🔥 Grup sembolleri
-function grupSembol(grup) { ... }
-
-// 📝 Listeyi güncelle
-function guncelleListe() { ... }
-
-// 📘📗 Sınıf oluşturma FONKSİYONU — SENİN SORDUĞUN BU!
 function siniflariOlustur() {
     const siniflar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
 
@@ -167,51 +120,5 @@ function siniflariOlustur() {
     html += `</ul>`;
     document.getElementById('sonuc').innerHTML = html;
 }
-const ogrenciler = [];
+</script>
 
-document.getElementById('kayitFormu').addEventListener('submit', function(e) {
-    // ... kayıt işlemi ...
-});
-
-// 🧠 Burç hesaplama fonksiyonu
-function burcHesapla(tarih) { ... }
-
-// 🧪 Burç grubu hesaplama fonksiyonu
-function burcGrubu(burc) { ... }
-
-// ♈ Burç sembolleri
-function burcSembol(burc) { ... }
-
-// 🔥 Grup sembolleri
-function grupSembol(grup) { ... }
-
-// 📝 Listeyi güncelle
-function guncelleListe() { ... }
-
-// 📘📗 Sınıf oluşturma FONKSİYONU — SENİN SORDUĞUN BU!
-function siniflariOlustur() {
-    const siniflar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
-
-    for (const ogr of ogrenciler) {
-        siniflar[ogr.grup].push(ogr);
-    }
-
-    let atesHava = [...siniflar["Ateş"], ...siniflar["Hava"]];
-    let suToprak = [...siniflar["Su"], ...siniflar["Toprak"]];
-
-    const sinifA = atesHava.slice(0, 25);
-    const sinifB = suToprak.slice(0, 25);
-
-    let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
-    sinifA.forEach(o => {
-        html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
-    });
-
-    html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
-    sinifB.forEach(o => {
-        html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
-    });
-
-    html += `</ul>`;
-    document.getElementById('sonuc').innerHTML = html;
-}
