@@ -119,3 +119,99 @@ function siniflariOlustur() {
     html += `</ul>`; // Sınıf B listesini kapat
     document.getElementById('sonuc').innerHTML = html;
 }
+const ogrenciler = [];
+
+document.getElementById('kayitFormu').addEventListener('submit', function(e) {
+    // ... kayıt işlemi ...
+});
+
+// 🧠 Burç hesaplama fonksiyonu
+function burcHesapla(tarih) { ... }
+
+// 🧪 Burç grubu hesaplama fonksiyonu
+function burcGrubu(burc) { ... }
+
+// ♈ Burç sembolleri
+function burcSembol(burc) { ... }
+
+// 🔥 Grup sembolleri
+function grupSembol(grup) { ... }
+
+// 📝 Listeyi güncelle
+function guncelleListe() { ... }
+
+// 📘📗 Sınıf oluşturma FONKSİYONU — SENİN SORDUĞUN BU!
+function siniflariOlustur() {
+    const siniflar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
+
+    for (const ogr of ogrenciler) {
+        siniflar[ogr.grup].push(ogr);
+    }
+
+    let atesHava = [...siniflar["Ateş"], ...siniflar["Hava"]];
+    let suToprak = [...siniflar["Su"], ...siniflar["Toprak"]];
+
+    const sinifA = atesHava.slice(0, 25);
+    const sinifB = suToprak.slice(0, 25);
+
+    let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
+    sinifA.forEach(o => {
+        html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
+    });
+
+    html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
+    sinifB.forEach(o => {
+        html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
+    });
+
+    html += `</ul>`;
+    document.getElementById('sonuc').innerHTML = html;
+}
+const ogrenciler = [];
+
+document.getElementById('kayitFormu').addEventListener('submit', function(e) {
+    // ... kayıt işlemi ...
+});
+
+// 🧠 Burç hesaplama fonksiyonu
+function burcHesapla(tarih) { ... }
+
+// 🧪 Burç grubu hesaplama fonksiyonu
+function burcGrubu(burc) { ... }
+
+// ♈ Burç sembolleri
+function burcSembol(burc) { ... }
+
+// 🔥 Grup sembolleri
+function grupSembol(grup) { ... }
+
+// 📝 Listeyi güncelle
+function guncelleListe() { ... }
+
+// 📘📗 Sınıf oluşturma FONKSİYONU — SENİN SORDUĞUN BU!
+function siniflariOlustur() {
+    const siniflar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
+
+    for (const ogr of ogrenciler) {
+        siniflar[ogr.grup].push(ogr);
+    }
+
+    let atesHava = [...siniflar["Ateş"], ...siniflar["Hava"]];
+    let suToprak = [...siniflar["Su"], ...siniflar["Toprak"]];
+
+    const sinifA = atesHava.slice(0, 25);
+    const sinifB = suToprak.slice(0, 25);
+
+    let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
+    sinifA.forEach(o => {
+        html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
+    });
+
+    html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
+    sinifB.forEach(o => {
+        html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
+    });
+
+    html += `</ul>`;
+    document.getElementById('sonuc').innerHTML = html;
+}
