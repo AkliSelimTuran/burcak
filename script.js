@@ -19,11 +19,28 @@ ogrenciler.forEach(o => {
 });
 listeHTML += `</ul>`;
 
+const gruplar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
+
+ogrenciler.forEach(o => {
+    gruplar[o.grup].push(o);
+});
+
+let listeHTML = `<h3>📝 Kayıtlı Öğrenciler (${ogrenciler.length})</h3>`;
+
+for (const grup in gruplar) {
+    listeHTML += `<h4>${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
+    gruplar[grup].forEach(o => {
+        listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${o.burc}</li>`;
+    });
+    listeHTML += `</ul>`;
+}
+
 document.getElementById('sonuc').innerHTML = listeHTML;
 
 if (ogrenciler.length === 50) {
     siniflariOlustur();
 }
+
 
 
     if (ogrenciler.length === 50) {
