@@ -77,4 +77,3 @@ function siniflariOlustur() {
     document.getElementById('sonuc').innerHTML = html;
 }
 
-
