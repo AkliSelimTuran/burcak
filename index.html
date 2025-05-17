@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Burçak - Öğrenci Kayıt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Burçak Öğrenci Kayıt Formu</h1>
+        <form id="kayitFormu">
+            <label for="isim">İsim Soyisim:</label>
+            <input type="text" id="isim" required>
+
+            <label for="dogumTarihi">Doğum Tarihi:</label>
+            <input type="date" id="dogumTarihi" required>
+
+            <label for="cinsiyet">Cinsiyet:</label>
+            <select id="cinsiyet" required>
+                <option value="">Seçin</option>
+                <option value="Erkek">Erkek</option>
+                <option value="Kız">Kız</option>
+            </select>
+
+            <button type="submit">Kaydet</button>
+        </form>
+
+        <div id="sonuc"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+index.html eklendi
