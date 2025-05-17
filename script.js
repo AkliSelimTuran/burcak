@@ -9,6 +9,24 @@ document.getElementById('kayitFormu').addEventListener('submit', function(e) {
 
     const burc = burcHesapla(dogumTarihi);
     const grup = burcGrubu(burc);
+function burcSembol(burc) {
+    const semboller = {
+        "Koç": "♈", "Boğa": "♉", "İkizler": "♊", "Yengeç": "♋",
+        "Aslan": "♌", "Başak": "♍", "Terazi": "♎", "Akrep": "♏",
+        "Yay": "♐", "Oğlak": "♑", "Kova": "♒", "Balık": "♓"
+    };
+    return semboller[burc] || "";
+}
+
+function grupSembol(grup) {
+    const semboller = {
+        "Ateş": "🔥",
+        "Su": "💧",
+        "Hava": "🌬️",
+        "Toprak": "🪨"
+    };
+    return semboller[grup] || "";
+}
 
     const yeniOgrenci = { isim, cinsiyet, burc, grup };
     ogrenciler.push(yeniOgrenci);
@@ -66,11 +84,9 @@ function guncelleListe() {
 
     for (const grup in gruplar) {
         listeHTML += `<h4>${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
-        gruplar[grup].forEach(o => {
-            listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${o.burc}</li>`;
-        });
-        listeHTML += `</ul>`;
-    }
+       gruplar[grup].forEach(o => {
+    listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
+});
 
     document.getElementById('sonuc').innerHTML = listeHTML;
 }
@@ -93,8 +109,7 @@ function siniflariOlustur() {
     let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
     sinifA.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
     html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
-    sinifB.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
-    html += `</ul>`;
+    sinifB.forEach(o => html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
 
     document.getElementById('sonuc').innerHTML = html;
 }
