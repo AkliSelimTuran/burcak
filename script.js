@@ -83,13 +83,16 @@ function guncelleListe() {
     let listeHTML = `<h3>📝 Kayıtlı Öğrenciler (${ogrenciler.length})</h3>`;
 
     for (const grup in gruplar) {
-        listeHTML += `<h4>${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
-       gruplar[grup].forEach(o => {
-    listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
-});
+        listeHTML += `<h4>${grupSembol(grup)} ${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
+        gruplar[grup].forEach(o => {
+            listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
+        });
+        listeHTML += `</ul>`; // ❗ UL ETİKETİNİ KAPATIYORUZ
+    }
 
     document.getElementById('sonuc').innerHTML = listeHTML;
 }
+
 
 function siniflariOlustur() {
     const siniflar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
@@ -109,7 +112,10 @@ function siniflariOlustur() {
     let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
     sinifA.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
     html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
-    sinifB.forEach(o => html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
+       sinifB.forEach(o => {
+        html += `<li>${o.isim} (${burcSembol(o.burc)} ${o.burc} - ${grupSembol(o.grup)} ${o.grup})</li>`;
+    });
 
+    html += `</ul>`; // Sınıf B listesini kapat
     document.getElementById('sonuc').innerHTML = html;
 }
