@@ -1,5 +1,10 @@
 const ogrenciler = [];
 
+const sinifAtes = [];
+const sinifToprak = [];
+const sinifHava = [];
+const sinifSu = [];
+
 function burcHesapla(tarih) {
   const date = new Date(tarih);
   const gun = date.getDate();
@@ -39,11 +44,20 @@ function guncelleListe() {
   const sonucDiv = document.getElementById("sonuc");
   if (!sonucDiv) return;
 
-  let html = "<h3>Kayıtlı Öğrenciler</h3><ul class='list-group'>";
-  ogrenciler.forEach(o => {
-    const grup = burcGrubu(o.burc);
-    html += `<li class='list-group-item'>👤 ${o.isim} | ${o.dogumTarihi} | ${o.burc} (${grup}) | ${o.cinsiyet}</li>`;
-  });
+  let html = "<h3>🔸 Ateş Sınıfı</h3><ul class='list-group'>";
+  sinifAtes.forEach(o => html += `<li class='list-group-item'>${o.isim} | ${o.burc} | ${o.cinsiyet}</li>`);
+  html += "</ul>";
+
+  html += "<h3>🔹 Toprak Sınıfı</h3><ul class='list-group'>";
+  sinifToprak.forEach(o => html += `<li class='list-group-item'>${o.isim} | ${o.burc} | ${o.cinsiyet}</li>`);
+  html += "</ul>";
+
+  html += "<h3>🌬️ Hava Sınıfı</h3><ul class='list-group'>";
+  sinifHava.forEach(o => html += `<li class='list-group-item'>${o.isim} | ${o.burc} | ${o.cinsiyet}</li>`);
+  html += "</ul>";
+
+  html += "<h3>💧 Su Sınıfı</h3><ul class='list-group'>";
+  sinifSu.forEach(o => html += `<li class='list-group-item'>${o.isim} | ${o.burc} | ${o.cinsiyet}</li>`);
   html += "</ul>";
 
   sonucDiv.innerHTML = html;
@@ -59,6 +73,14 @@ document.getElementById("kayitFormu").addEventListener("submit", function(e) {
 
   if (isim && dogumTarihi && cinsiyet) {
     ogrenciler.push({ isim, dogumTarihi, burc, cinsiyet });
+    const grup = burcGrubu(burc);
+
+// gruba göre ilgili sınıfa ekle
+if (grup === "Ateş") sinifAtes.push({ isim, dogumTarihi, burc, grup, cinsiyet });
+else if (grup === "Toprak") sinifToprak.push({ isim, dogumTarihi, burc, grup, cinsiyet });
+else if (grup === "Hava") sinifHava.push({ isim, dogumTarihi, burc, grup, cinsiyet });
+else if (grup === "Su") sinifSu.push({ isim, dogumTarihi, burc, grup, cinsiyet });
+
     guncelleListe();
     this.reset();
   }
