@@ -34,18 +34,6 @@ function burcGrubu(burc) {
 
 const ogrenciler = [];
 
-function burcHesapla(tarih) {
-  const gun = new Date(tarih).getDate();
-  const ay = new Date(tarih).getMonth() + 1;
-
-  if ((ay === 3 && gun >= 21) || (ay === 4 && gun <= 20)) return "Koç";
-  if ((ay === 4 && gun >= 21) || (ay === 5 && gun <= 21)) return "Boğa";
-  if ((ay === 5 && gun >= 22) || (ay === 6 && gun <= 22)) return "İkizler";
-  // Devamı...
-
-  return "Bilinmiyor";
-}
-
 function guncelleListe() {
   const sonucDiv = document.getElementById("sonuc");
   if (!sonucDiv) return;
