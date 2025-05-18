@@ -1,9 +1,13 @@
+const ogrenciler = [];
+let sinifA = [];
+let sinifB = [];
+
 function grupRenk(grup) {
     const renkler = {
-        "Ateş": "#e74c3c",     // kırmızı
-        "Su": "#3498db",       // mavi
-        "Hava": "#9b59b6",     // mor
-        "Toprak": "#27ae60"    // yeşil
+        "Ateş": "#e74c3c",
+        "Su": "#3498db",
+        "Hava": "#9b59b6",
+        "Toprak": "#27ae60"
     };
     return renkler[grup] || "#000";
 }
@@ -26,52 +30,6 @@ function grupSembol(grup) {
     };
     return semboller[grup] || "";
 }
-
-const ogrenciler = [];
-
-document.getElementById('kayitFormu').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const isim = document.getElementById('isim').value;
-    const dogumTarihi = new Date(document.getElementById('dogumTarihi').value);
-    const cinsiyet = document.getElementById('cinsiyet').value;
-
-    const burc = burcHesapla(dogumTarihi);
-    const grup = burcGrubu(burc);
-
-    const yeniOgrenci = { isim, cinsiyet, burc, grup };
-    ogrenciler.push(yeniOgrenci);
-
-    // Kayıtlı listeyi güncelle
-    guncelleListe();
-    function guncelleListe() {
-    const gruplar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
-
-    ogrenciler.forEach(o => {
-        gruplar[o.grup].push(o);
-    });
-
-    let listeHTML = `<h3>📝 Kayıtlı Öğrenciler (${ogrenciler.length})</h3>`;
-
-    for (const grup in gruplar) {
-        listeHTML += `<h4>${grupSembol(grup)} ${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
-        gruplar[grup].forEach(o => {
-            listeHTML += `<li style="color:${grupRenk(grup)}">${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
-        });
-        listeHTML += `</ul>`;
-    }
-
-    document.getElementById('sonuc').innerHTML = listeHTML;
-}
-
-    // Eğer 50 kişi olduysa sınıfları oluştur
-    if (ogrenciler.length === 50) {
-        siniflariOlustur();
-    }
-
-    // Formu sıfırla
-    document.getElementById('kayitFormu').reset();
-});
 
 function burcHesapla(tarih) {
     const gun = tarih.getDate();
@@ -113,9 +71,9 @@ function guncelleListe() {
     let listeHTML = `<h3>📝 Kayıtlı Öğrenciler (${ogrenciler.length})</h3>`;
 
     for (const grup in gruplar) {
-        listeHTML += `<h4>${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
+        listeHTML += `<h4>${grupSembol(grup)} ${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
         gruplar[grup].forEach(o => {
-            listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${o.burc}</li>`;
+            listeHTML += `<li style="color:${grupRenk(grup)}">${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
         });
         listeHTML += `</ul>`;
     }
@@ -129,7 +87,6 @@ function siniflariOlustur() {
         B: { kizlar: [], erkekler: [] }
     };
 
-    // Gruplara göre ayır
     const gruplar = {
         Ateş: [], Hava: [], Su: [], Toprak: []
     };
@@ -137,12 +94,9 @@ function siniflariOlustur() {
         gruplar[o.grup].push(o);
     });
 
-    // Sınıf A = Ateş + Hava
     const aListesi = [...gruplar["Ateş"], ...gruplar["Hava"]];
-    // Sınıf B = Su + Toprak
     const bListesi = [...gruplar["Su"], ...gruplar["Toprak"]];
 
-    // Kız-erkek ayır
     aListesi.forEach(o => {
         if (o.cinsiyet === "Kadın") siniflar.A.kizlar.push(o);
         else siniflar.A.erkekler.push(o);
@@ -152,7 +106,6 @@ function siniflariOlustur() {
         else siniflar.B.erkekler.push(o);
     });
 
-    // Dengeli şekilde sınıf listesi oluştur
     function dengeOlustur(kizlar, erkekler) {
         const sonuc = [];
         let i = 0, j = 0;
@@ -163,10 +116,9 @@ function siniflariOlustur() {
         return sonuc;
     }
 
-    const sinifA = dengeOlustur(siniflar.A.kizlar, siniflar.A.erkekler);
-    const sinifB = dengeOlustur(siniflar.B.kizlar, siniflar.B.erkekler);
+    sinifA = dengeOlustur(siniflar.A.kizlar, siniflar.A.erkekler);
+    sinifB = dengeOlustur(siniflar.B.kizlar, siniflar.B.erkekler);
 
-    // HTML çıktısı
     let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
     sinifA.forEach(o => html += `<li>${o.isim} (${o.cinsiyet} - ${o.burc} ${burcSembol(o.burc)} / ${grupSembol(o.grup)} ${o.grup})</li>`);
     html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
@@ -175,41 +127,34 @@ function siniflariOlustur() {
 
     document.getElementById('sonuc').innerHTML = html;
 }
-// PDF Çıktısı
-function pdfOlustur() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
 
-    doc.text("📘 Sınıf A (Ateş + Hava)", 10, 10);
-    doc.autoTable({
-        startY: 15,
-        head: [["İsim", "Cinsiyet", "Burç", "Grup"]],
-        body: sinifA.map(o => [o.isim, o.cinsiyet, o.burc, o.grup])
-    });
+document.getElementById('kayitFormu').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-    doc.text("📗 Sınıf B (Su + Toprak)", 10, doc.autoTable.previous.finalY + 10);
-    doc.autoTable({
-        startY: doc.autoTable.previous.finalY + 15,
-        head: [["İsim", "Cinsiyet", "Burç", "Grup"]],
-        body: sinifB.map(o => [o.isim, o.cinsiyet, o.burc, o.grup])
-    });
+    const isim = document.getElementById('isim').value.trim();
+    const dogumTarihiRaw = document.getElementById('dogumTarihi').value;
+    const cinsiyet = document.getElementById('cinsiyet').value;
 
-    doc.save("ogrenci_listesi.pdf");
-}
+    if (!isim || !dogumTarihiRaw || !cinsiyet) {
+        alert("Lütfen tüm alanları eksiksiz doldurun.");
+        return;
+    }
 
-// Excel Çıktısı
-function excelOlustur() {
-    const data = [
-        ["Sınıf", "İsim", "Cinsiyet", "Burç", "Grup"],
-        ...sinifA.map(o => ["A", o.isim, o.cinsiyet, o.burc, o.grup]),
-        ...sinifB.map(o => ["B", o.isim, o.cinsiyet, o.burc, o.grup])
-    ];
+    const dogumTarihi = new Date(dogumTarihiRaw);
+    const burc = burcHesapla(dogumTarihi);
+    const grup = burcGrubu(burc);
 
-    const ws = XLSX.utils.aoa_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Ogrenciler");
-    XLSX.writeFile(wb, "ogrenci_listesi.xlsx");
-}
+    const yeniOgrenci = { isim, cinsiyet, burc, grup };
+    ogrenciler.push(yeniOgrenci);
+
+    guncelleListe();
+
+    if (ogrenciler.length >= 50) {
+        siniflariOlustur();
+    }
+
+    document.getElementById('kayitFormu').reset();
+});
 
 function pdfOlustur() {
     const { jsPDF } = window.jspdf;
@@ -222,9 +167,9 @@ function pdfOlustur() {
         body: sinifA.map(o => [o.isim, o.cinsiyet, o.burc, o.grup])
     });
 
-    doc.text("📗 Sınıf B (Su + Toprak)", 10, doc.autoTable.previous.finalY + 10);
+    doc.text("📗 Sınıf B (Su + Toprak)", 10, doc.lastAutoTable.finalY + 10);
     doc.autoTable({
-        startY: doc.autoTable.previous.finalY + 15,
+        startY: doc.lastAutoTable.finalY + 15,
         head: [["İsim", "Cinsiyet", "Burç", "Grup"]],
         body: sinifB.map(o => [o.isim, o.cinsiyet, o.burc, o.grup])
     });
@@ -244,4 +189,3 @@ function excelOlustur() {
     XLSX.utils.book_append_sheet(wb, ws, "Ogrenciler");
     XLSX.writeFile(wb, "ogrenci_listesi.xlsx");
 }
-
