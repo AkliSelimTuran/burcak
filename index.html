@@ -5,7 +5,11 @@
     <title>Burçak - Öğrenci Kayıt</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="script.js"></script>
+</body>
     <div class="container">
         <h1>Burçak Öğrenci Kayıt Formu</h1>
         <form id="kayitFormu">
@@ -30,6 +34,8 @@
     <script src="script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<button onclick="pdfOlustur()">📄 PDF Çıktısı</button>
+<button onclick="excelOlustur()">📊 Excel Çıktısı</button>
 </body>
 </html>
 <button onclick="pdfOlustur()">📄 PDF Çıktısı</button>
