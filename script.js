@@ -124,11 +124,57 @@ function guncelleListe() {
 }
 
 function siniflariOlustur() {
-    const siniflar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
+    const siniflar = {
+        A: { kizlar: [], erkekler: [] },
+        B: { kizlar: [], erkekler: [] }
+    };
 
-    for (const ogr of ogrenciler) {
-        siniflar[ogr.grup].push(ogr);
+    // Gruplara göre ayır
+    const gruplar = {
+        Ateş: [], Hava: [], Su: [], Toprak: []
+    };
+    ogrenciler.forEach(o => {
+        gruplar[o.grup].push(o);
+    });
+
+    // Sınıf A = Ateş + Hava
+    const aListesi = [...gruplar["Ateş"], ...gruplar["Hava"]];
+    // Sınıf B = Su + Toprak
+    const bListesi = [...gruplar["Su"], ...gruplar["Toprak"]];
+
+    // Kız-erkek ayır
+    aListesi.forEach(o => {
+        if (o.cinsiyet === "Kadın") siniflar.A.kizlar.push(o);
+        else siniflar.A.erkekler.push(o);
+    });
+    bListesi.forEach(o => {
+        if (o.cinsiyet === "Kadın") siniflar.B.kizlar.push(o);
+        else siniflar.B.erkekler.push(o);
+    });
+
+    // Dengeli şekilde sınıf listesi oluştur
+    function dengeOlustur(kizlar, erkekler) {
+        const sonuc = [];
+        let i = 0, j = 0;
+        while (sonuc.length < 25 && (i < kizlar.length || j < erkekler.length)) {
+            if (i < kizlar.length) sonuc.push(kizlar[i++]);
+            if (j < erkekler.length && sonuc.length < 25) sonuc.push(erkekler[j++]);
+        }
+        return sonuc;
     }
+
+    const sinifA = dengeOlustur(siniflar.A.kizlar, siniflar.A.erkekler);
+    const sinifB = dengeOlustur(siniflar.B.kizlar, siniflar.B.erkekler);
+
+    // HTML çıktısı
+    let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
+    sinifA.forEach(o => html += `<li>${o.isim} (${o.cinsiyet} - ${o.burc} ${burcSembol(o.burc)} / ${grupSembol(o.grup)} ${o.grup})</li>`);
+    html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
+    sinifB.forEach(o => html += `<li>${o.isim} (${o.cinsiyet} - ${o.burc} ${burcSembol(o.burc)} / ${grupSembol(o.grup)} ${o.grup})</li>`);
+    html += `</ul>`;
+
+    document.getElementById('sonuc').innerHTML = html;
+}
 
     // Eksik grup varsa: Ateş + Hava -> A, Su + Toprak -> B
     let atesHava = [...siniflar["Ateş"], ...siniflar["Hava"]];
