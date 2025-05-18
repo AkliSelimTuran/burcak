@@ -1,6 +1,99 @@
 const ogrenciler = [];
 let sinifA = [];
 let sinifB = [];
+let ogrenciler = [];
+
+document.getElementById("kayitFormu").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const isim = document.getElementById("isim").value.trim();
+  const dogumTarihi = document.getElementById("dogumTarihi").value;
+  const cinsiyet = document.getElementById("cinsiyet").value;
+
+  if (!isim || !dogumTarihi || !cinsiyet) {
+    alert("Lütfen tüm alanları doldurun.");
+    return;
+  }
+
+  const burc = burcHesapla(dogumTarihi);
+  const grup = grupAta(burc);
+
+  ogrenciler.push({ isim, dogumTarihi, cinsiyet, burc, grup });
+
+  listeyiGuncelle();
+  this.reset(); // Formu temizle
+});
+
+// Burç hesaplama
+function burcHesapla(tarih) {
+  const gun = new Date(tarih).getDate();
+  const ay = new Date(tarih).getMonth() + 1;
+
+  if ((ay == 3 && gun >= 21) || (ay == 4 && gun <= 20)) return "Koç";
+  if ((ay == 4 && gun >= 21) || (ay == 5 && gun <= 21)) return "Boğa";
+  if ((ay == 5 && gun >= 22) || (ay == 6 && gun <= 22)) return "İkizler";
+  if ((ay == 6 && gun >= 23) || (ay == 7 && gun <= 22)) return "Yengeç";
+  if ((ay == 7 && gun >= 23) || (ay == 8 && gun <= 22)) return "Aslan";
+  if ((ay == 8 && gun >= 23) || (ay == 9 && gun <= 22)) return "Başak";
+  if ((ay == 9 && gun >= 23) || (ay == 10 && gun <= 22)) return "Terazi";
+  if ((ay == 10 && gun >= 23) || (ay == 11 && gun <= 21)) return "Akrep";
+  if ((ay == 11 && gun >= 22) || (ay == 12 && gun <= 21)) return "Yay";
+  if ((ay == 12 && gun >= 22) || (ay == 1 && gun <= 21)) return "Oğlak";
+  if ((ay == 1 && gun >= 22) || (ay == 2 && gun <= 19)) return "Kova";
+  if ((ay == 2 && gun >= 20) || (ay == 3 && gun <= 20)) return "Balık";
+}
+
+// Burç grubuna göre atama
+function grupAta(burc) {
+  const ates = ["Koç", "Aslan", "Yay"];
+  const toprak = ["Boğa", "Başak", "Oğlak"];
+  const hava = ["İkizler", "Terazi", "Kova"];
+  const su = ["Yengeç", "Akrep", "Balık"];
+
+  if (ates.includes(burc)) return "Ateş";
+  if (toprak.includes(burc)) return "Toprak";
+  if (hava.includes(burc)) return "Hava";
+  if (su.includes(burc)) return "Su";
+}
+
+// Listeyi ekrana yaz
+function listeyiGuncelle() {
+  const sonucDiv = document.getElementById("sonuc");
+  sonucDiv.innerHTML = ""; // Önce temizle
+
+  if (ogrenciler.length === 0) {
+    sonucDiv.innerHTML = "<p>Henüz öğrenci eklenmedi.</p>";
+    return;
+  }
+
+  const grupListesi = {};
+
+  // Gruplara göre ayır
+  ogrenciler.forEach(o => {
+    if (!grupListesi[o.grup]) {
+      grupListesi[o.grup] = [];
+    }
+    grupListesi[o.grup].push(o);
+  });
+
+  // Her grup için listele
+  for (const grup in grupListesi) {
+    const grupOgrencileri = grupListesi[grup];
+    const baslik = document.createElement("h3");
+    baslik.textContent = `${grup} Grubu (${grupOgrencileri.length} kişi)`;
+    sonucDiv.appendChild(baslik);
+
+    const liste = document.createElement("ul");
+
+    grupOgrencileri.forEach(o => {
+      const li = document.createElement("li");
+      li.textContent = `${o.isim} - ${o.burc} - ${o.cinsiyet}`;
+      liste.appendChild(li);
+    });
+
+    sonucDiv.appendChild(liste);
+  }
+}
 
 function grupRenk(grup) {
     const renkler = {
