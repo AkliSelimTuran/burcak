@@ -211,4 +211,37 @@ function excelOlustur() {
     XLSX.writeFile(wb, "ogrenci_listesi.xlsx");
 }
 
+function pdfOlustur() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.text("📘 Sınıf A (Ateş + Hava)", 10, 10);
+    doc.autoTable({
+        startY: 15,
+        head: [["İsim", "Cinsiyet", "Burç", "Grup"]],
+        body: sinifA.map(o => [o.isim, o.cinsiyet, o.burc, o.grup])
+    });
+
+    doc.text("📗 Sınıf B (Su + Toprak)", 10, doc.autoTable.previous.finalY + 10);
+    doc.autoTable({
+        startY: doc.autoTable.previous.finalY + 15,
+        head: [["İsim", "Cinsiyet", "Burç", "Grup"]],
+        body: sinifB.map(o => [o.isim, o.cinsiyet, o.burc, o.grup])
+    });
+
+    doc.save("ogrenci_listesi.pdf");
+}
+
+function excelOlustur() {
+    const data = [
+        ["Sınıf", "İsim", "Cinsiyet", "Burç", "Grup"],
+        ...sinifA.map(o => ["A", o.isim, o.cinsiyet, o.burc, o.grup]),
+        ...sinifB.map(o => ["B", o.isim, o.cinsiyet, o.burc, o.grup])
+    ];
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Ogrenciler");
+    XLSX.writeFile(wb, "ogrenci_listesi.xlsx");
+}
 
