@@ -1,3 +1,13 @@
+function grupRenk(grup) {
+    const renkler = {
+        "Ateş": "#e74c3c",     // kırmızı
+        "Su": "#3498db",       // mavi
+        "Hava": "#9b59b6",     // mor
+        "Toprak": "#27ae60"    // yeşil
+    };
+    return renkler[grup] || "#000";
+}
+
 function burcSembol(burc) {
     const semboller = {
         "Koç": "♈", "Boğa": "♉", "İkizler": "♊", "Yengeç": "♋",
