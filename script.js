@@ -176,19 +176,4 @@ function siniflariOlustur() {
     document.getElementById('sonuc').innerHTML = html;
 }
 
-    // Eksik grup varsa: Ateş + Hava -> A, Su + Toprak -> B
-    let atesHava = [...siniflar["Ateş"], ...siniflar["Hava"]];
-    let suToprak = [...siniflar["Su"], ...siniflar["Toprak"]];
-
-    const sinifA = atesHava.slice(0, 25);
-    const sinifB = suToprak.slice(0, 25);
-
-    // HTML çıktısı
-    let html = `<h2>📘 Sınıf A (Ateş + Hava)</h2><ul>`;
-    sinifA.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
-    html += `</ul><h2>📗 Sınıf B (Su + Toprak)</h2><ul>`;
-    sinifB.forEach(o => html += `<li>${o.isim} (${o.burc} - ${o.grup})</li>`);
-    html += `</ul>`;
-
-    document.getElementById('sonuc').innerHTML = html;
 }
