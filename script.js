@@ -93,7 +93,6 @@ function listeyiGuncelle() {
 
     sonucDiv.appendChild(liste);
   }
-}
 
 function grupRenk(grup) {
     const renkler = {
