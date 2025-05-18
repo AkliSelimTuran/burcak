@@ -34,8 +34,25 @@ document.getElementById('kayitFormu').addEventListener('submit', function(e) {
 
     // Kayıtlı listeyi güncelle
     guncelleListe();
-    
-listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
+    function guncelleListe() {
+    const gruplar = { Ateş: [], Su: [], Hava: [], Toprak: [] };
+
+    ogrenciler.forEach(o => {
+        gruplar[o.grup].push(o);
+    });
+
+    let listeHTML = `<h3>📝 Kayıtlı Öğrenciler (${ogrenciler.length})</h3>`;
+
+    for (const grup in gruplar) {
+        listeHTML += `<h4>${grupSembol(grup)} ${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
+        gruplar[grup].forEach(o => {
+            listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
+        });
+        listeHTML += `</ul>`;
+    }
+
+    document.getElementById('sonuc').innerHTML = listeHTML;
+}
 
     // Eğer 50 kişi olduysa sınıfları oluştur
     if (ogrenciler.length === 50) {
