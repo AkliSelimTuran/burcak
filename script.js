@@ -1,3 +1,22 @@
+function burcSembol(burc) {
+    const semboller = {
+        "Koç": "♈", "Boğa": "♉", "İkizler": "♊", "Yengeç": "♋",
+        "Aslan": "♌", "Başak": "♍", "Terazi": "♎", "Akrep": "♏",
+        "Yay": "♐", "Oğlak": "♑", "Kova": "♒", "Balık": "♓"
+    };
+    return semboller[burc] || "";
+}
+
+function grupSembol(grup) {
+    const semboller = {
+        "Ateş": "🔥",
+        "Su": "💧",
+        "Hava": "🌬️",
+        "Toprak": "🪨"
+    };
+    return semboller[grup] || "";
+}
+
 const ogrenciler = [];
 
 document.getElementById('kayitFormu').addEventListener('submit', function(e) {
@@ -15,6 +34,8 @@ document.getElementById('kayitFormu').addEventListener('submit', function(e) {
 
     // Kayıtlı listeyi güncelle
     guncelleListe();
+    
+listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
 
     // Eğer 50 kişi olduysa sınıfları oluştur
     if (ogrenciler.length === 50) {
