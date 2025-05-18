@@ -46,7 +46,7 @@ document.getElementById('kayitFormu').addEventListener('submit', function(e) {
     for (const grup in gruplar) {
         listeHTML += `<h4>${grupSembol(grup)} ${grup} Grubu (${gruplar[grup].length})</h4><ul>`;
         gruplar[grup].forEach(o => {
-            listeHTML += `<li>${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
+            listeHTML += `<li style="color:${grupRenk(grup)}">${o.isim} (${o.cinsiyet}) - ${burcSembol(o.burc)} ${o.burc} / ${grupSembol(o.grup)} ${o.grup}</li>`;
         });
         listeHTML += `</ul>`;
     }
